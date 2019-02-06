@@ -49,7 +49,7 @@ namespace RandomPasswordGenerator
         private void GetSpecialCharacter()
         {
             var symbols = SpecialCharacters.SpecialCharactersList;
-            var randomDigit = _randomDigit.Next(0, 5);
+            var randomDigit = _randomDigit.Next(0, symbols.Length);
             _password.Append(symbols[randomDigit]);
         }
     }
