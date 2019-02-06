@@ -7,48 +7,63 @@ namespace RandomPasswordGenerator
     public static class Program
     {
 
-        private static SecureString _password;
-
         [STAThread]
         public static void Main(string[] args)
         {
-            Console.WriteLine("What type of password do you need?");
-            Console.WriteLine("----------------------------------");
-            Console.WriteLine("1. Weak passphrase");
-            Console.WriteLine("2. Strong password");
-            Console.WriteLine("----------------------------------");
+            var exit = 1;
 
-
-            var input = Console.ReadKey(true).KeyChar;
-
-            switch (input)
+            while (exit == 1)
             {
-                case '1':
-                    _password = GetPassword.WeakPassword();
-                    break;
-                case '2':
-                    _password = GetPassword.StrongPassword();
-                    break;
-                default:
-                    Environment.Exit(0);
-                    break;
-            }
+                var _password = new SecureString();
 
-            if (string.IsNullOrEmpty(_password.ToInsecureString()))
-            {
-                Console.WriteLine("\nError creating password.\n\n");
-            }
-            else
-            {
-                Console.WriteLine($"\nYour password is: {_password.ToInsecureString()}");
-                Clipboard.SetText(_password.ToInsecureString());
-                Console.WriteLine("Password saved to clipboard\n\n");
-            }
+                Console.WriteLine("What type of password do you need?");
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("1. Weak passphrase");
+                Console.WriteLine("2. Strong password");
+                Console.WriteLine("3. Exit");
+                Console.WriteLine("----------------------------------");
 
-            Console.WriteLine("Press enter to close");
-            Console.ReadKey();
+
+                var input = Console.ReadKey(true).KeyChar;
+
+                switch (input)
+                {
+                    case '1':
+                        _password = GetPassword.WeakPassword();
+                        break;
+                    case '2':
+                        _password = GetPassword.StrongPassword();
+                        break;
+                    case '3':
+                        exit = 0;
+                        break;
+                    default:
+                        Environment.Exit(0);
+                        break;
+                }
+
+                if (string.IsNullOrEmpty(_password.ToInsecureString()) && exit != 0)
+                {
+                    Console.WriteLine("\nError creating password.\n\n");
+
+                    Console.WriteLine("Press enter to close");
+                    Console.ReadKey();
+                }
+                else if (exit != 0)
+                {
+                    Clipboard.Clear();
+
+                    Console.WriteLine($"\nYour password is: {_password.ToInsecureString()}");
+
+                    Clipboard.SetText(_password.ToInsecureString());
+                    Console.WriteLine("Password saved to clipboard\n\n");
+
+                    Console.WriteLine("Press enter to continue");
+                    Console.ReadKey();
+
+                    Console.Clear();
+                }
+            }
         }
-
-
     }
 }

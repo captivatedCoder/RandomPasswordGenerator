@@ -6,14 +6,14 @@ using System.Text;
 
 namespace RandomPasswordGenerator
 {
-    public static class WeakPasswordGenerator
+    public class WeakPasswordGenerator
     {
-        private static readonly StringBuilder _password = new StringBuilder();
-        private static readonly RNGCryptoServiceProvider _rngSeed = new RNGCryptoServiceProvider();
-        private static readonly PasswordDictionaries _passwordDictionaries = new PasswordDictionaries();
-        private static readonly Random _randomDigit = new Random();
+        private readonly StringBuilder _password = new StringBuilder();
+        private readonly RNGCryptoServiceProvider _rngSeed = new RNGCryptoServiceProvider();
+        private readonly PasswordDictionaries _passwordDictionaries = new PasswordDictionaries();
+        private readonly Random _randomDigit = new Random();
 
-        public static SecureString ReturnWeakPassword()
+        public SecureString ReturnWeakPassword()
         {
             GetWord();
             GetDigits();
@@ -22,7 +22,7 @@ namespace RandomPasswordGenerator
             return _password.ToString().ToSecureString();
         }
 
-        private static void GetWord()
+        private void GetWord()
         {
             var randomNumber = new byte[1];
             _rngSeed.GetBytes(randomNumber);
@@ -35,7 +35,7 @@ namespace RandomPasswordGenerator
             _password.Append(passwordWord);
         }
 
-        private static void GetDigits()
+        private void GetDigits()
         {
             var passwordDigits = new int[3];
 
@@ -47,7 +47,7 @@ namespace RandomPasswordGenerator
             _password.Append(passwordDigits.Aggregate(string.Empty, (s, i) => s + i.ToString()));
         }
 
-        private static void GetSpecialCharacter()
+        private void GetSpecialCharacter()
         {
             const string symbols = "#@%&*$";
             var randomDigit = _randomDigit.Next(0, 5);

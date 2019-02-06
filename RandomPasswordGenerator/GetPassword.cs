@@ -8,7 +8,8 @@ namespace RandomPasswordGenerator
     {
         public static SecureString WeakPassword()
         {
-            return WeakPasswordGenerator.ReturnWeakPassword();
+            var newPassword = new WeakPasswordGenerator();
+            return newPassword.ReturnWeakPassword();
         }
 
         public static SecureString StrongPassword()
