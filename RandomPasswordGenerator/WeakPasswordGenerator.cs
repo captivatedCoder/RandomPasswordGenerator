@@ -10,7 +10,6 @@ namespace RandomPasswordGenerator
     {
         private readonly StringBuilder _password = new StringBuilder();
         private readonly RNGCryptoServiceProvider _rngSeed = new RNGCryptoServiceProvider();
-        private readonly PasswordDictionaries _passwordDictionaries = new PasswordDictionaries();
         private readonly Random _randomDigit = new Random();
 
         public SecureString ReturnWeakPassword()
@@ -28,7 +27,7 @@ namespace RandomPasswordGenerator
             _rngSeed.GetBytes(randomNumber);
 
             var passwordWord =
-                _passwordDictionaries.PasswordList[randomNumber[0] % _passwordDictionaries.PasswordList.Count];
+                PasswordDictionaries.PasswordList[randomNumber[0] % PasswordDictionaries.PasswordList.Count];
 
             passwordWord = char.ToUpper(passwordWord[0]) + passwordWord.Substring(1);
 
@@ -49,7 +48,7 @@ namespace RandomPasswordGenerator
 
         private void GetSpecialCharacter()
         {
-            const string symbols = "#@%&*$";
+            var symbols = SpecialCharacters.SpecialCharactersList;
             var randomDigit = _randomDigit.Next(0, 5);
             _password.Append(symbols[randomDigit]);
         }
